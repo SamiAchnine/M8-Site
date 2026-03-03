@@ -10,24 +10,96 @@
       Filename: js06b.js
  */
 
+   let subButton = document.getElementById("subButton");
 
+   // valudate the payment when the button is clicked
+   subButton.addEventListener("click", validateName);
+   subButton.addEventListener("click", validateCard);
+   subButton.addEventListener('click', validateNumber);
+   subButton.addEventListener("click", validateMonth);
+   subButton.addEventListener('click', validateYear);
+   subButton.addEventListener("click", validateCVC);
 
+   function validateNumber() {
+      let cNum = document.getElementById("cardNumber");
+      if (cNum.validity.valueMissing) {
+         cNum.setCustomValidity("Enter your credit card number");
+      }
+      else if (cNum.validity.patternMismatch) {
+         cNum.setCustomValidity("Enter a valid credit card number");
+      }
+      else if (luhn(cNum.value) === false) {
+         cNum.setCustomValidity("Enter a legitimate card number");
+      }
+      else {
+         cNum.setCustomValidity("");
+      }
+   }
 
+   function validateMonth() {
+      let month = document.getElementById("expMonth");
+      if (month.selectedIndex === 0) {
+         month.setCustomValidity("select the expiration month");
+      }
+      else {
+         month.setCustomValidity("");
+      }
+   }
 
+   function validateYear() {
+      let year = document.getElementById("expYear");
+      if (year.selectedIndex === 0) {
+         year.setCustomValidity("select the expiration year");
+      }
+      else {
+         year.setCustomValidity("");
+      }
+   }
 
+   function validateCVC() {
+      // determine which card was selected
+      let card = document.querySelector('input[name="credit"]:checked').value;
+      let cvc = document.getElementById("cvc");
 
+      // validate CVC value
+      if (cvc.validity.valueMissing) {
+         cvc.setCustomValidity("enter your CVC number");
+      }
+      else if ((card === "amex") && !(/^\d{4}$/.test(cvc.value))) {
+         cvc.setCustomValidity("enter a 4-digit number");
+      }
+      else if ((card !== 'amex') && !(/^\d{3}$/.test(cvc.value))) {
+         cvc.setCustomValidity("enter a 3-digit number");
+      }
+      else {
+         cvc.setCustomValidity("");
+      }
+   }
 
+   // validate if a credit card has been selected
+   function validateCard() {
+      let card = document.forms.payment.elements.credit[0];
+      if (card.validity.valueMissing) {
+         card.setCustomValidity("Select your credit card");
 
+      }
+      else {
+         card.setCustomValidity("");
+      }
+   }
 
+   // check is the owner's name is entered in the card funcetion
+   function validateName() {
+      let cardName = document.getElementById("cardName");
+      if (cardName.validity.valueMissing) {
+         cardName.setCustomValidity("Enter your name as it appears on the card");
+      }
+      else {
+         cardName.setCustomValidity("");
+      }
+   }
 
-
-
-
-
-
-
-
-
+   
 /* ------- Luhn Algorithm used for Validating Credit Card Numbers   ----- */
 
 function luhn(idNum) {
