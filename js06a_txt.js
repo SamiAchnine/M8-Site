@@ -4,8 +4,8 @@
       Chapter case
 
       Order Form Code
-      Author: 
-      Date:   
+      Author: Sami Achnine
+      Date:  Mar 03 2026
 
       Filename: js06a.js
  */
